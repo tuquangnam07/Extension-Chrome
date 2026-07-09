@@ -5,7 +5,7 @@
 
 > **Tiện ích tự động đăng ký tài khoản Garena hàng loạt với xác thực OTP qua Gmail + Gửi log về Telegram**
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/yourusername/garena-auto-register)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/tuquangnam07/Extension-Chrome/tree/main/Garena%20Auto%20Register%20Pro%20Version%202.0.0)
 [![Manifest](https://img.shields.io/badge/Manifest-v3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
 
