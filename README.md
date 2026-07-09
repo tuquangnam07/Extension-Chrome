@@ -196,7 +196,7 @@ MIT License - xem file [LICENSE](LICENSE) để biết thêm chi tiết.
 ## 📧 Liên hệ
 
 - **Tác giả**: tuquangnam07
-- **GitHub**: [yourusername](https://github.com/tuquangnam07)
+- **GitHub**: [@tuquangnam07](https://github.com/tuquangnam07)
 
 ---
 
