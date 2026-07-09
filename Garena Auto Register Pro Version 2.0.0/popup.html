@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Garena Auto Register</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      width: 450px; 
+      padding: 15px; 
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+    .container {
+      background: #161b22;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #30363d;
+    }
+    h3 { 
+      color: #f0883e; 
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .stat-box {
+      background: #0d1117;
+      padding: 8px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .stat-box .number {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .stat-box .label {
+      font-size: 10px;
+      color: #8b949e;
+    }
+    .stat-box.success .number { color: #3fb950; }
+    .stat-box.fail .number { color: #f85149; }
+    .stat-box.remain .number { color: #58a6ff; }
+    
+    .current-account {
+      background: #0d1117;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      border-left: 3px solid #f0883e;
+    }
+    .current-account .label { color: #8b949e; }
+    .current-account .value { color: #f0883e; font-weight: bold; }
+    
+    .telegram-config {
+      background: #0d1117;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border: 1px solid #21262d;
+    }
+    .telegram-config input {
+      width: 100%;
+      padding: 6px 10px;
+      margin: 3px 0;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      color: #c9d1d9;
+      font-size: 12px;
+    }
+    .telegram-config input:focus {
+      outline: none;
+      border-color: #f0883e;
+    }
+    .telegram-config .btn-save {
+      padding: 4px 12px;
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+    .telegram-config .btn-save:hover {
+      background: #2ea043;
+    }
+    .telegram-status {
+      font-size: 10px;
+      color: #8b949e;
+      margin-top: 4px;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+    .btn-start {
+      background: #238636;
+      color: #fff;
+    }
+    .btn-start:hover { background: #2ea043; }
+    .btn-start:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-stop {
+      background: #da3633;
+      color: #fff;
+    }
+    .btn-stop:hover { background: #f85149; }
+    .btn-reset {
+      background: #21262d;
+      color: #c9d1d9;
+    }
+    .btn-reset:hover { background: #30363d; }
+    
+    .log-box {
+      background: #0d1117;
+      padding: 8px;
+      border-radius: 6px;
+      max-height: 120px;
+      overflow-y: auto;
+      font-size: 10px;
+      font-family: 'Consolas', monospace;
+      margin-top: 8px;
+      border: 1px solid #21262d;
+    }
+    .log-box::-webkit-scrollbar { width: 4px; }
+    .log-box::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+    .log-info { color: #58a6ff; }
+    .log-success { color: #3fb950; }
+    .log-error { color: #f85149; }
+    .log-warning { color: #d29922; }
+    
+    .version {
+      text-align: center;
+      font-size: 10px;
+      color: #21262d;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h3>🚀 Garena Auto Register Version 2.0.0</h3>
+  
+<!-- CẤU HÌNH TELEGRAM -->
+<div class="telegram-config" id="telegramConfig" style="display:none;">
+  <div style="display:flex; gap:8px; margin-bottom:4px;">
+    <input type="text" id="botToken" placeholder="Bot Token (từ @BotFather)" style="flex:2;">
+    <input type="text" id="chatId" placeholder="Chat ID (từ @userinfobot)" style="flex:1;">
+  </div>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <button class="btn-save" id="saveTelegram">💾 Lưu</button>
+    <button class="btn-save" id="testTelegram" style="background:#1f6feb;">📨 Test</button>
+    <span class="telegram-status" id="telegramStatus">⚪ Chưa cấu hình</span>
+  </div>
+</div>
+  
+  <div class="stats">
+    <div class="stat-box success">
+      <div class="number" id="successCount">0</div>
+      <div class="label">✅ Thành công</div>
+    </div>
+    <div class="stat-box fail">
+      <div class="number" id="failCount">0</div>
+      <div class="label">❌ Thất bại</div>
+    </div>
+    <div class="stat-box remain">
+      <div class="number" id="remainCount">0</div>
+      <div class="label">📦 Còn lại</div>
+    </div>
+  </div>
+  
+  <div class="current-account">
+    <div><span class="label">Đang xử lý:</span> <span class="value" id="currentAccount">Chưa bắt đầu</span></div>
+    <div><span class="label">Trạng thái:</span> <span id="statusText">Chờ</span></div>
+  </div>
+  
+  <div class="btn-group">
+    <button class="btn btn-start" id="startBtn">▶ BẮT ĐẦU</button>
+    <button class="btn btn-stop" id="stopBtn">⏹ DỪNG</button>
+    <button class="btn btn-reset" id="resetBtn">🔄 RESET</button>
+  </div>
+  
+  <div class="log-box" id="logBox">
+    <div class="log-info">[System] Sẵn sàng...</div>
+  </div>
+  
+  <div class="version">v5.0 | Log + Telegram | Orinlo</div>
+</div>
+
+<script src="popup.js" type="module"></script>
+</body>
+</html>
