@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Garena Auto Register Pro",
-  "version": "4.1",
+  "version": "1.0",
   "permissions": [
     "activeTab",
     "scripting",
